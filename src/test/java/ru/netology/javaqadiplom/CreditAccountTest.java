@@ -19,6 +19,43 @@ public class CreditAccountTest {
     }
 
     @Test
+    public void zeroBalanceTest() {
+        CreditAccount account = new CreditAccount(
+                1_000,
+                5_000,
+                15
+        );
+
+        account.add(0);
+
+        Assertions.assertEquals(1_000, account.getBalance());
+    }
+
+    @Test
+    public void notAddMinusBalanceTest() {
+        CreditAccount account = new CreditAccount(
+                1_000,
+                5_000,
+                15
+        );
+
+        account.add(-2_000);
+
+        Assertions.assertEquals(1_000, account.getBalance());
+    }
+
+    @Test
+    public void minusRateTest() {
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new CreditAccount(1_000, 5_000, -15);
+        });
+
+
+    }
+
+
+    @Test
     public void minusInitialBalanceTest() {
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
