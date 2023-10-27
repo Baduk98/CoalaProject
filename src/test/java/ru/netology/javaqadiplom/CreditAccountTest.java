@@ -17,4 +17,15 @@ public class CreditAccountTest {
 
         Assertions.assertEquals(3_000, account.getBalance());
     }
+
+    @Test
+    public void zeroRate() {
+        CreditAccount account = new CreditAccount(
+                1_000,
+                5_000,
+                0
+        );
+
+        Assertions.assertEquals(0, account.getRate());
+    }
 }
