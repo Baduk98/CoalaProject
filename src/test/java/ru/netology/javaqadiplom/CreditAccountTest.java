@@ -19,6 +19,15 @@ public class CreditAccountTest {
     }
 
     @Test
+    public void minusInitialBalanceTest() {
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new CreditAccount(-1_000, 5_000, 15);
+        });
+    }
+
+
+    @Test
     public void zeroRate() {
         CreditAccount account = new CreditAccount(
                 1_000,
