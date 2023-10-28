@@ -5,15 +5,37 @@ import org.junit.jupiter.api.Test;
 
 public class SavingAccountTest {
 
+    //тест c минусовым балансом
+    @Test
+    public void negativeBalance() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new SavingAccount(-1_000, 1_000, 10_000, 15);
+        }, "Баланс не может быть отрицательным, а у вас: -1_000");
+    }
+
+    //тест c минусовым минимальным балансом
+    @Test
+    public void negativeMinBalance() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new SavingAccount(2_000, -1_000, 10_000, 15);
+        }, "Минимальный баланс не может быть отрицательным, а у вас: -1_000");
+    }
+
+    //тест c минусовым максимальным балансом
+    @Test
+    public void negativeMaxBalance() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new SavingAccount(2_000, 1_000, -1_000, 15);
+        }, "Максимальный баланс не может быть отрицательным, а у вас: -1_000");
+    }
 
     //тест c минусовой ставкой
     @Test
-        public void negativeRate() {
-            Assertions.assertThrows(IllegalArgumentException.class, () -> {
-                new SavingAccount(2_000, 1_000, 10_000, -15);
-            }, "Накопительная ставка не может быть отрицательной, а у вас: -15");
-        }
-
+    public void negativeRate() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new SavingAccount(2_000, 1_000, 10_000, -15);
+        }, "Накопительная ставка не может быть отрицательной, а у вас: -15");
+    }
 
     //в пределах допустимого установленного лимита баланса
     @Test
@@ -59,7 +81,6 @@ public class SavingAccountTest {
 
         Assertions.assertEquals(2_000, account.getBalance());
     }
-
 
     //сумма покупки в допустимом пределе баланса
     @Test
@@ -134,5 +155,18 @@ public class SavingAccountTest {
         int yearChange = account.yearChange();
 
         Assertions.assertEquals(0, yearChange);
+    }
+
+    //тест c нулевой ставкой
+    @Test
+    public void RateZero() {
+        SavingAccount account = new SavingAccount(
+                2_000,
+                1_000,
+                10_000,
+                0
+        );
+
+        Assertions.assertEquals(0, account.getRate());
     }
 }
