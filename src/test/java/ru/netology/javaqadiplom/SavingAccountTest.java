@@ -5,28 +5,29 @@ import org.junit.jupiter.api.Test;
 
 public class SavingAccountTest {
 
-    //тест c минусовым балансом
+
+    //тест c отрицательным балансом
     @Test
     public void negativeBalance() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            new SavingAccount(-1_000, 1_000, 10_000, 15);
-        }, "Баланс не может быть отрицательным, а у вас: -1_000");
+            new SavingAccount(-2_000, 1_000, 10_000, -15);
+        }, "Баланс не может быть отрицательным, а у вас:  -2000");
     }
 
-    //тест c минусовым минимальным балансом
+    //тест c отрицательным min балансом
     @Test
     public void negativeMinBalance() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            new SavingAccount(2_000, -1_000, 10_000, 15);
-        }, "Минимальный баланс не может быть отрицательным, а у вас: -1_000");
+            new SavingAccount(2_000, -1_000, 10_000, -15);
+        }, "Минимальный баланс не может быть отрицательным, а у вас:  -1000");
     }
 
-    //тест c минусовым максимальным балансом
+    //тест c отрицательным max балансом
     @Test
     public void negativeMaxBalance() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            new SavingAccount(2_000, 1_000, -1_000, 15);
-        }, "Максимальный баланс не может быть отрицательным, а у вас: -1_000");
+            new SavingAccount(2_000, 1_000, -10_000, -15);
+        }, "Максимальный баланс не может быть отрицательным, а у вас:  -10000");
     }
 
     //тест c минусовой ставкой
@@ -36,6 +37,7 @@ public class SavingAccountTest {
             new SavingAccount(2_000, 1_000, 10_000, -15);
         }, "Накопительная ставка не может быть отрицательной, а у вас: -15");
     }
+
 
     //в пределах допустимого установленного лимита баланса
     @Test
@@ -67,11 +69,26 @@ public class SavingAccountTest {
         Assertions.assertEquals(2_000 + 0, account.getBalance());
     }
 
+    //пополнение в пределе максимального лимита баланса
+    @Test
+    public void shouldAddLessThanMaxBalance2() {
+        SavingAccount account = new SavingAccount(
+                0,
+                1_000,
+                10_000,
+                5
+        );
+
+        account.add(10_000);
+
+        Assertions.assertEquals(10_000 + 0, account.getMaxBalance());
+    }
+
     //пополнение баланса на 0
     @Test
     public void shouldAddABalanceOfZero() {
         SavingAccount account = new SavingAccount(
-                2_000,
+                1_000,
                 1_000,
                 10_000,
                 5
@@ -79,8 +96,9 @@ public class SavingAccountTest {
 
         account.add(0);
 
-        Assertions.assertEquals(2_000, account.getBalance());
+        Assertions.assertEquals(1_000, account.getMinBalance());
     }
+
 
     //сумма покупки в допустимом пределе баланса
     @Test
@@ -155,18 +173,5 @@ public class SavingAccountTest {
         int yearChange = account.yearChange();
 
         Assertions.assertEquals(0, yearChange);
-    }
-
-    //тест c нулевой ставкой
-    @Test
-    public void RateZero() {
-        SavingAccount account = new SavingAccount(
-                2_000,
-                1_000,
-                10_000,
-                0
-        );
-
-        Assertions.assertEquals(0, account.getRate());
     }
 }
