@@ -17,6 +17,7 @@ public class CreditAccountTest {
 
         Assertions.assertEquals(3_000, account.getBalance());
     }
+<<<<<<< HEAD
 
     @Test
     public void zeroBalanceTest() {
@@ -234,4 +235,6 @@ public class CreditAccountTest {
 
         Assertions.assertEquals(-300, account.yearChange());
     }
+=======
+>>>>>>> 90fc3797d1abd8bfc934e638027371237a27dc6c
 }
