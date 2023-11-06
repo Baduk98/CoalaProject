@@ -1,4 +1,4 @@
-ru.netology.javaqadiplom;
+package ru.netology.javaqadiplom;
 
 /**
  * Сберегательный счёт
@@ -20,23 +20,9 @@ public class SavingAccount extends Account {
      * @param rate - неотрицательное число, ставка в процентах годовых на остаток
      */
     public SavingAccount(int initialBalance, int minBalance, int maxBalance, int rate) {
-        if (rate <= 0) {
+        if (rate < 0) {
             throw new IllegalArgumentException(
-                    "Накопительная ставка не может быть отрицательной и равной нулю, а у вас: " + rate
-            );
-        }
-        if (initialBalance < 0) {
-            throw new IllegalArgumentException(
-                    "Начальный баланс не может быть отрицательным, у вас: " + initialBalance);
-        }
-        if (minBalance < 0) {
-            throw new IllegalArgumentException(
-                    "Минимальный баланс не может быть отрицательным, а у вас: " + minBalance
-            );
-        }
-        if (maxBalance <= minBalance) {
-            throw new IllegalArgumentException(
-                    "Максимальный баланс не должен быть равен или меньше минимального, а у вас: " + maxBalance
+              "Накопительная ставка не может быть отрицательной, а у вас: " + rate
             );
         }
         this.balance = initialBalance;
@@ -59,8 +45,8 @@ public class SavingAccount extends Account {
         if (amount <= 0) {
             return false;
         }
+        balance = balance - amount;
         if (balance > minBalance) {
-            balance = balance - amount;
             return true;
         } else {
             return false;
@@ -84,7 +70,7 @@ public class SavingAccount extends Account {
             return false;
         }
         if (balance + amount < maxBalance) {
-            balance = balance + amount;
+            balance = amount;
             return true;
         } else {
             return false;
@@ -100,18 +86,17 @@ public class SavingAccount extends Account {
      */
     @Override
     public int yearChange() {
-        if (balance >= maxBalance) {
-            return 0;
-        } else {
-            return balance / 100 * rate;
-        }
-
+        return balance / 100 * rate;
     }
-
 
     public int getMinBalance() {
         return minBalance;
     }
+
+    public int getMaxBalance() {
+        return maxBalance;
+    }
+}
 
     public int getMaxBalance() {
         return maxBalance;
