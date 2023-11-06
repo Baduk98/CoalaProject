@@ -74,7 +74,7 @@ public class SavingAccountTest {
     public void shouldAddLessThanMaxBalance2() {
         SavingAccount account = new SavingAccount(
                 0,
-                1_000,
+                0,
                 10_000,
                 5
         );
